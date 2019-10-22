@@ -39,7 +39,10 @@ IAT = pd.read_csv(data_file)
 # D_biep.White_Good_all->D_white_bias
 # Mn_RT_all_3467->rt
 
-IAT = ...
+IAT = IAT.rename(columns={'session_id':'id', 'genderidentity':'gender',
+'raceomb_002':'race', 'policialid_7':'politic', 'STATE': 'state', 'att_7':'attitude',
+'tblacks_0to10':'tblack','twhites_0to10':'twhite','D_biep.White_Good_all':'D_white_bias',
+'Mn_RT_all_3467':'rt'})
 
 # remove all participants that have at least one missing value
 IAT_clean = ...
