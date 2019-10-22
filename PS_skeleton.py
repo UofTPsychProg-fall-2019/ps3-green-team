@@ -51,7 +51,7 @@ IAT_clean = IAT.dropna(axis=0, how='any')
 
 # check out the replace method: https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.replace.html
 # use this to recode gender so that 1=men and 2=women (instead of '[1]' and '[2]')
-IAT_clean = IAT_clean.replace(to_replace={'[1]', '[2]'}, value={'1', '2'})
+IAT_clean = IAT_clean.replace(to_replace={'[1]', '[2]'}, value={1, 2})
 
 # use this cleaned dataframe to answer the following questions
 
