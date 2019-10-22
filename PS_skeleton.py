@@ -46,17 +46,17 @@ IAT = IAT.rename(columns={'session_id':'id', 'genderidentity':'gender',
 #after the colon.
 
 # remove all participants that have at least one missing value
-IAT_clean = ...
+IAT_clean = IAT.dropna(axis=0, how='any')
 
 
 # check out the replace method: https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.replace.html
 # use this to recode gender so that 1=men and 2=women (instead of '[1]' and '[2]')
-IAT_clean ...
+IAT_clean = IAT_clean.replace(to_replace={'[1]', '[2]'}, value={'1', '2'})
 
 # use this cleaned dataframe to answer the following questions
 
 #%%
-# Question 2: sorting and indexing
+# Question 2: sorting and indexing --> Rebekah
 
 # use sorting and indexing to print out the following information:
 
@@ -71,7 +71,7 @@ IAT_clean ...
 
 
 #%%
-# Question 3: loops and pivots
+# Question 3: loops and pivots --> Emily
 
 # check out the unique method: https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.unique.html
 # use it to get a list of states
@@ -91,7 +91,7 @@ state_bias=...
 state_race_bias=...
 
 #%%
-# Question 4: merging and more merging
+# Question 4: merging and more merging --> Juliana + Gaeun
 
 # add a new variable that codes for whether or not a participant identifies as
 # black/African American
