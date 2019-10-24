@@ -22,7 +22,8 @@ import pandas as pd
 # Question 1: reading and cleaning
 
 # read in the included IAT_2018.csv file
-data_file = 'IAT_2018.csv'
+path = os.getcwd()
+data_file = path + '/IAT/IAT_2018.csv'
 IAT = pd.read_csv(data_file)
 
 # rename and reorder the variables to the following (original name->new name):
