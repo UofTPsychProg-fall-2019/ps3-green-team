@@ -82,6 +82,8 @@ print('women in NY: ' + str(list(IAT_women_NY.iloc[0:5,0])))
 # check out the unique method: https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.unique.html
 # use it to get a list of states
 states = list(IAT_clean.loc[:,'state'].unique()) #I'm getting 62 states; am I going crazy???
+#Juliana: I'm also getting 62... I'm assuming the list also includes territories and islands
+#(e.g., Guam).
 
 # write a loop that iterates over states to calculate the median white-good
 # bias per state
@@ -104,18 +106,28 @@ state_race_bias = pd.pivot_table(IAT_clean, 'D_white_bias','state','race')
 
 # add a new variable that codes for whether or not a participant identifies as
 # black/African American
+IAT_clean['is_black']=1*(IAT_clean.race==5) # J - used an integer rather than a boolean
+#so it would be easier for subsequent tasks.
 
 # use your new variable along with the crosstab function to calculate the
 # proportion of each state's population that is black
 # *hint check out the normalization options
-prop_black =...
+prop_black = pd.crosstab(IAT_clean.state, IAT_clean.is_black, normalize='index')
+#Juliana - I chose to normalize by column, in order to give a proportion of non-black
+#(0), to black (1) people within each state. Other normalization options did not
+#yield this.
+print(prop_black)
 
 # state_pop.xlsx contains census data from 2000 taken from http://www.censusscope.org/us/rank_race_blackafricanamerican.html
 # the last column contains the proportion of residents who identify as
 # black/African American
 # read in this file and merge its contents with your prop_black table
-census =...
-merged =...
+census_file = path+'/state_pop.xlsx'
+census = pd.read_excel(census_file) #use read_excel for .xlsx files
+prop_black=prop_black.reset_index(level=['state']) #had to make state a column,
+#as it was the index in the crosstab.
+prop_black=prop_black.rename(columns={'state':'State'}) #rename to match census
+merged = pd.merge(census,prop_black,on='State')
 
 # use the corr method to correlate the census proportions to the sample proportions
 
