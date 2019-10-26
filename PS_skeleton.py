@@ -22,7 +22,8 @@ import pandas as pd
 # Question 1: reading and cleaning
 
 # read in the included IAT_2018.csv file
-data_file = 'IAT/IAT_2018.csv'
+path = os.getcwd()
+data_file = path + '/IAT/IAT_2018.csv'
 IAT = pd.read_csv(data_file)
 
 # rename and reorder the variables to the following (original name->new name):
@@ -46,7 +47,7 @@ IAT = IAT.rename(columns={'session_id':'id', 'genderidentity':'gender',
 #after the colon.
 
 # remove all participants that have at least one missing value
-IAT_clean = IAT.dropna(axis=0, how='any')
+IAT_clean = IAT.dropna(how='any', axis=0)
 
 
 # check out the replace method: https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.replace.html
@@ -61,13 +62,18 @@ IAT_clean = IAT_clean.replace(to_replace={'[1]', '[2]'}, value={1, 2})
 # use sorting and indexing to print out the following information:
 
 # the ids of the 5 participants with the fastest reaction times
-
+#IAT_by_rt = IAT_clean.sort_values(by=['rt']) #sort by rt
+#print(list(IAT_by_rt.iloc[0:5,0])) #print the corresponding ids (cast as list to suppress index)
 
 # the ids of the 5 men with the strongest white-good bias
-
+IAT_by_white_good = IAT_clean.sort_values(by=['D_white_bias'])
+IAT_men = IAT_by_white_good[IAT_by_white_good['gender']==1]
+print('men: ' + str(list(IAT_men.iloc[0:5,0])))
 
 # the ids of the 5 women in new york with the strongest white-good bias
-
+IAT_women = IAT_by_white_good[IAT_by_white_good['gender']==2]
+IAT_women_NY = IAT_by_white_good[IAT_by_white_good['state']=='NY']
+print('women in NY: ' + str(list(IAT_women_NY.iloc[0:5,0])))
 
 
 #%%
@@ -75,20 +81,23 @@ IAT_clean = IAT_clean.replace(to_replace={'[1]', '[2]'}, value={1, 2})
 
 # check out the unique method: https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.unique.html
 # use it to get a list of states
-states =...
+states = list(IAT_clean.loc[:,'state'].unique()) #I'm getting 62 states; am I going crazy???
 
 # write a loop that iterates over states to calculate the median white-good
 # bias per state
 # store the results in a dataframe with 2 columns: state & bias
-...
-
+df = pd.DataFrame(columns=['state', 'bias'])
+count = 0
+for st in states:
+    tmpMean = IAT_clean[IAT_clean['state']==st].mean()[3]
+    df = df.append(pd.Series([st,tmpMean], index=df.columns), ignore_index=True)
 
 # now use the pivot_table function to calculate the same statistics
-state_bias=...
+state_bias= pd.pivot_table(IAT_clean, 'D_white_bias','state')
 
 # make another pivot_table that calculates median bias per state, separately
 # for each race (organized by columns)
-state_race_bias=...
+state_race_bias = pd.pivot_table(IAT_clean, 'D_white_bias','state','race')
 
 #%%
 # Question 4: merging and more merging --> Juliana + Gaeun
