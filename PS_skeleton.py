@@ -62,8 +62,8 @@ IAT_clean = IAT_clean.replace(to_replace={'[1]', '[2]'}, value={1, 2})
 # use sorting and indexing to print out the following information:
 
 # the ids of the 5 participants with the fastest reaction times
-#IAT_by_rt = IAT_clean.sort_values(by=['rt']) #sort by rt
-#print(list(IAT_by_rt.iloc[0:5,0])) #print the corresponding ids (cast as list to suppress index)
+IAT_by_rt = IAT_clean.sort_values(by=['rt']) #sort by rt
+print(list(IAT_by_rt.iloc[0:5,0])) #print the corresponding ids (cast as list to suppress index)
 
 # the ids of the 5 men with the strongest white-good bias
 IAT_by_white_good = IAT_clean.sort_values(by=['D_white_bias'])
