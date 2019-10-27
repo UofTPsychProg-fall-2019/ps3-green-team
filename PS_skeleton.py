@@ -127,8 +127,9 @@ census_file = path+'/state_pop.xlsx'
 census = pd.read_excel(census_file) #use read_excel for .xlsx files
 prop_black=prop_black.reset_index(level=['state']) #had to make state a column,
 #as it was the index in the crosstab.
-prop_black=prop_black.rename(columns={'state':'State'}) #rename to match census
-merged = pd.merge(census,prop_black,on='State')
+merged = pd.merge(census,prop_black,left_on='State', right_on='state')
+#Juliana - Previously, I renamed the 'prop_black' 'state' to 'State' to merge. 
+#Saw Gaeun's comment below and used the two parameters at the end instead.
 
 # use the corr method to correlate the census proportions to the sample proportions
 correlation = np.corrcoef(merged.per_black, merged.iloc[:,5]) # Gaeun: The last column(6th) was sample proprtion. 
