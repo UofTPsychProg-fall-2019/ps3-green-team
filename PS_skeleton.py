@@ -136,7 +136,7 @@ merged = pd.merge(census,prop_black,left_on='State', right_on='state')
 merged = merged.drop("state", axis=1) # we need this line for pretty dataframe..
 
 # use the corr method to correlate the census proportions to the sample proportions
-correlation = np.corrcoef(merged.per_black, merged.iloc[:,6]) # Gaeun: The last column(6th) was sample proprtion. 
+correlation = np.corrcoef(merged.per_black, merged.iloc[:,5]) # Gaeun: The last column(6th) was sample proprtion. 
 # Correlation coefficient ~ .88
 
 # now merge the census data with your state_race_bias pivot table
