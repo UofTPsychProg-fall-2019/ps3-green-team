@@ -89,17 +89,17 @@ states = list(IAT_clean.loc[:,'state'].unique()) #I'm getting 62 states; am I go
 # bias per state
 # store the results in a dataframe with 2 columns: state & bias
 df = pd.DataFrame(columns=['state', 'bias'])
-count = 0
+# count = 0 #<< Gaeun: do we need this line?
 for st in states:
     tmpMean = IAT_clean[IAT_clean['state']==st].median()[3] # Gaeun: this question seemed to require median, so 'mean -> median'
     df = df.append(pd.Series([st,tmpMean], index=df.columns), ignore_index=True)
 
 # now use the pivot_table function to calculate the same statistics
-state_bias= pd.pivot_table(IAT_clean, 'D_white_bias','state', aggfunc = [np.median])
+state_bias= pd.pivot_table(IAT_clean, 'D_white_bias','state', aggfunc = np.median)
 
 # make another pivot_table that calculates median bias per state, separately
 # for each race (organized by columns)
-state_race_bias = pd.pivot_table(IAT_clean, 'D_white_bias','state','race', aggfunc = [np.median])
+state_race_bias = pd.pivot_table(IAT_clean, 'D_white_bias','state','race', aggfunc = np.median)
 
 #%%
 # Question 4: merging and more merging --> Juliana + Gaeun
@@ -131,12 +131,16 @@ merged = pd.merge(census,prop_black,left_on='State', right_on='state')
 #Saw Gaeun's comment below and used the two parameters at the end instead.
 
 # use the corr method to correlate the census proportions to the sample proportions
-correlation = np.corrcoef(merged.per_black, merged.iloc[:,5]) # Gaeun: The last column(6th) was sample proprtion. 
+correlation = np.corrcoef(merged.per_black, merged.iloc[:,6]) # Gaeun: The last column(6th) was sample proprtion. 
 # Correlation coefficient ~ .88
 
 # now merge the census data with your state_race_bias pivot table
 srB_reindex = state_race_bias.reset_index(level=['state'])
-merged2 = pd.merge(census, state_race_bias, left_on = 'State', right_on = 'state') 
+srB_reindex = srB_reindex.rename(columns = {'state':'State'})
+#merged2 = pd.merge(census, srB_reindex2, left_on = 'State', right_on = 'state')
+# I realized that left/right_on argument make double columns for state information, which I don't like.
+# Should we go back to rename the column, like Juliana first did?
+merged2 = pd.merge(census, srB_reindex, on = 'State');#, left_on = 'State', right_on = 'state')
 # Gaeun: when variable names for merging were different, we can try left/right_on as well.
 
 # use the corr method again to determine whether white_good biases is correlated
