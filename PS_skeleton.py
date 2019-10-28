@@ -133,6 +133,7 @@ prop_black=prop_black.reset_index(level=['state']) #had to make state a column,
 merged = pd.merge(census,prop_black,left_on='State', right_on='state')
 #Juliana - Previously, I renamed the 'prop_black' 'state' to 'State' to merge. 
 #Saw Gaeun's comment below and used the two parameters at the end instead.
+merged = merged.drop("state", axis=1) # we need this line for pretty dataframe..
 
 # use the corr method to correlate the census proportions to the sample proportions
 correlation = np.corrcoef(merged.per_black, merged.iloc[:,6]) # Gaeun: The last column(6th) was sample proprtion. 
