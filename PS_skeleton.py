@@ -116,7 +116,6 @@ prop_black = pd.crosstab(IAT_clean.state, IAT_clean.is_black, normalize='index')
 #Juliana - I chose to normalize by column, in order to give a proportion of non-black
 #(0), to black (1) people within each state. Other normalization options did not
 #yield this. Additionally, it made more sense to list .state as the index, and .is_black as the columns. 
-print(prop_black)
 
 # state_pop.xlsx contains census data from 2000 taken from http://www.censusscope.org/us/rank_race_blackafricanamerican.html
 # the last column contains the proportion of residents who identify as
