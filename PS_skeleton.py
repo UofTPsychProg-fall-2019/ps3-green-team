@@ -94,12 +94,16 @@ for st in states:
     tmpMean = IAT_clean[IAT_clean['state']==st].median()[3] # Gaeun: this question seemed to require median, so 'mean -> median'
     df = df.append(pd.Series([st,tmpMean], index=df.columns), ignore_index=True)
 
+df #display complete df
+
 # now use the pivot_table function to calculate the same statistics
 state_bias= pd.pivot_table(IAT_clean, 'D_white_bias','state', aggfunc = [np.median])
 
 # make another pivot_table that calculates median bias per state, separately
 # for each race (organized by columns)
 state_race_bias = pd.pivot_table(IAT_clean, 'D_white_bias','state','race', aggfunc = [np.median])
+
+state_race_bias #Display complete pivot table
 
 #%%
 # Question 4: merging and more merging --> Juliana + Gaeun
